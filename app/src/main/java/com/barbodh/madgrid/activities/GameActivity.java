@@ -14,7 +14,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.barbodh.madgrid.http.MyHTTPInterface;
+import com.barbodh.madgrid.http.object.PostObject;
 import com.barbodh.madgrid.tools.BounceInterpolator;
 import com.barbodh.madgrid.MadGrid;
 import com.barbodh.madgrid.R;
@@ -348,6 +351,17 @@ public class GameActivity extends AppCompatActivity {
 
         // save new highest score in SharedPreferences (if higher than previous highest score)
         saveNewHighestScore(); // saves new high score in SharedPreferences
+
+
+        PostObject postObject = (PostObject) new PostObject(madGrid.getKey().size(), new MyHTTPInterface() {
+            @Override
+            public void myMethod(boolean result) {
+                if (result == true) {
+                    Toast.makeText(GameActivity.this, "Score has been upload!", Toast.LENGTH_LONG).show();
+                }
+            }
+        }).execute();
+
 
         // send user to ResultsActivity and pass on necessary information
         Intent intent = new Intent(this, ResultsActivity.class);
